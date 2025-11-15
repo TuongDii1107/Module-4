@@ -1,5 +1,6 @@
 package com.sqc.academy;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -8,10 +9,10 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Student {
-    int ID;
-    String name;
-    double score;
+public class ApiRespone <T> {
+    int code;
+    String message;
+    T data;
 }
-

@@ -1,4 +1,4 @@
-package com.sqc.academy;
+package com.sqc.academy.bai3;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,9 +9,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Student {
-    int ID;
+public class Department {
+    String id;
     String name;
-    double score;
 }
-
