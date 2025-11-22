@@ -1,5 +1,6 @@
-package com.sqc.academy.bai3;
+package com.sqc.academy.bai3.model;
 
+import com.sqc.academy.bai3.Gender;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

@@ -1,5 +1,7 @@
-package com.sqc.academy.bai3;
+package com.sqc.academy.bai3.exception;
 
+import com.sqc.academy.bai3.ApiResponse;
+import com.sqc.academy.bai3.ErrorCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

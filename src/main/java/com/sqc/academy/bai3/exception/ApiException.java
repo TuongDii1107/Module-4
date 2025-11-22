@@ -1,5 +1,6 @@
-package com.sqc.academy.bai3;
+package com.sqc.academy.bai3.exception;
 
+import com.sqc.academy.bai3.ErrorCode;
 import lombok.Getter;
 
 @Getter

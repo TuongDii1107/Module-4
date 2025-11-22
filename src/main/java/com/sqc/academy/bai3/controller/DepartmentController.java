@@ -1,5 +1,9 @@
-package com.sqc.academy.bai3;
+package com.sqc.academy.bai3.controller;
 
+import com.sqc.academy.bai3.exception.ApiException;
+import com.sqc.academy.bai3.model.Department;
+import com.sqc.academy.bai3.ErrorCode;
+import com.sqc.academy.bai3.JsonResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
