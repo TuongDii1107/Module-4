@@ -9,7 +9,9 @@ import java.util.Optional;
 public interface IEmployeeRepository {
     List<Employee> findAll();
     Optional<Employee> findById(String id);
-    Employee save(Employee employee);
+    void save(Employee employee);
     void delete(String id);
-    List<Employee> search(EmployeeSearchRequest request);
+    List<Employee> search(String name, String dobFrom, String dobTo,
+                          String gender, String salaryRange,
+                          String phone, Integer departmentId);
 }

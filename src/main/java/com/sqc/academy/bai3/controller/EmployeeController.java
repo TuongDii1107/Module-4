@@ -1,45 +1,52 @@
 package com.sqc.academy.bai3.controller;
 
-import com.sqc.academy.bai3.JsonResponse;
-import com.sqc.academy.bai3.dto.EmployeeSearchRequest;
 import com.sqc.academy.bai3.model.Employee;
+import com.sqc.academy.bai3.response.JsonResponse;
 import com.sqc.academy.bai3.service.IEmployeeService;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/employees")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class EmployeeController {
 
-    IEmployeeService employeeService;
+    @Autowired
+    private IEmployeeService service;
 
     @GetMapping
-    public ResponseEntity<?> search(EmployeeSearchRequest request) {
-        return JsonResponse.ok(employeeService.search(request));
+    public Object search(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String dobFrom,
+            @RequestParam(required = false) String dobTo,
+            @RequestParam(required = false) String gender,
+            @RequestParam(required = false) String salaryRange,
+            @RequestParam(required = false) String phone,
+            @RequestParam(required = false) Integer departmentId
+    ) {
+        List<Employee> list = service.search(name, dobFrom, dobTo, gender, salaryRange, phone, departmentId);
+        return JsonResponse.ok(list);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable String id) {
-        return JsonResponse.ok(employeeService.getById(id));
+    public Object getById(@PathVariable String id) {
+        return JsonResponse.ok(service.getById(id));
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Employee employee) {
-        return JsonResponse.create(employeeService.create(employee));
+    public Object create(@RequestBody Employee employee) {
+        return JsonResponse.created(service.create(employee));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody Employee employee) {
-        return JsonResponse.ok(employeeService.update(id, employee));
+    public Object update(@PathVariable String id, @RequestBody Employee employee) {
+        return JsonResponse.ok(service.update(id, employee));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id) {
-        employeeService.delete(id);
-        return JsonResponse.noContent();
+    public Object delete(@PathVariable String id) {
+        service.delete(id);
+        return JsonResponse.noContent("Deleted successfully");
     }
 }
-

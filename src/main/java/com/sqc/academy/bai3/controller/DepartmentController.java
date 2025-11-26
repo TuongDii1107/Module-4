@@ -1,67 +1,44 @@
 package com.sqc.academy.bai3.controller;
 
-import com.sqc.academy.bai3.exception.ApiException;
 import com.sqc.academy.bai3.model.Department;
-import com.sqc.academy.bai3.ErrorCode;
-import com.sqc.academy.bai3.JsonResponse;
-import org.springframework.http.ResponseEntity;
+import com.sqc.academy.bai3.response.JsonResponse;
+import com.sqc.academy.bai3.service.IDepartmentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/departments")
 public class DepartmentController {
 
-    private final List<Department> departmentList = new ArrayList<>();
-
-    public DepartmentController() {
-        departmentList.add(new Department(UUID.randomUUID().toString(), "Human Resources"));
-        departmentList.add(new Department(UUID.randomUUID().toString(), "IT"));
-        departmentList.add(new Department(UUID.randomUUID().toString(), "Finance"));
-    }
+    @Autowired
+    private IDepartmentService service;
 
     @GetMapping
-    public ResponseEntity<?> getAll() {
-        return JsonResponse.ok(departmentList);
+    public Object getAll() {
+        List<Department> list = service.getAll();
+        return JsonResponse.ok(list);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable String id) {
-        Department dept = departmentList.stream()
-                .filter(d -> d.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new ApiException(ErrorCode.DEPARTMENT_NOT_EXISTED));
-
-        return JsonResponse.ok(dept);
+    public Object getById(@PathVariable int id) {
+        return JsonResponse.ok(service.getById(id));
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Department department) {
-        department.setId(UUID.randomUUID().toString());
-        departmentList.add(department);
-        return JsonResponse.create(department);
+    public Object create(@RequestBody Department department) {
+        return JsonResponse.created(service.create(department));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody Department updated) {
-        Department dept = departmentList.stream()
-                .filter(d -> d.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new ApiException(ErrorCode.DEPARTMENT_NOT_EXISTED));
-
-        dept.setName(updated.getName());
-        return JsonResponse.ok(dept);
+    public Object update(@PathVariable int id, @RequestBody Department department) {
+        return JsonResponse.ok(service.update(id, department));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id) {
-        Department dept = departmentList.stream()
-                .filter(d -> d.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new ApiException(ErrorCode.DEPARTMENT_NOT_EXISTED));
-
-        departmentList.remove(dept);
-        return JsonResponse.noContent();
+    public Object delete(@PathVariable int id) {
+        service.delete(id);
+        return JsonResponse.noContent("Deleted successfully");
     }
 }
